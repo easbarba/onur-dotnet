@@ -1,0 +1,6 @@
+dotnet test
+
+dotnet run grab
+dotnet run archive
+
+./prfix.bash

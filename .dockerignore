@@ -1,0 +1,7 @@
+.github
+*.md
+LICENSE
+Makefile
+bin
+obj
+manifest.scm

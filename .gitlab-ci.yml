@@ -1,0 +1,10 @@
+stages:
+  - test
+
+Unit Tests:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:7.0
+  before_script:
+    - ./prepare.bash
+  script:
+    - dotnet test
