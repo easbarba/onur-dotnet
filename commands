@@ -1,6 +1,4 @@
-dotnet test
+test
 
-dotnet run grab
-dotnet run archive
-
-./prfix.bash
+run --project Onur grab
+run --project Onur archive

@@ -1,4 +1,20 @@
-﻿using System.CommandLine;
+﻿/*
+* onur is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* onur is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with onur. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+using System.CommandLine;
+using Onur.Actions;
 
 namespace Onur
 {
@@ -19,16 +35,16 @@ namespace Onur
             var verboseOption = new Option<bool>(
                 name: "--verbose",
                 description: "More information on command.",
-                getDefaultValue: () => false);
+                getDefaultValue: () => false
+            );
 
             var fileOption = new Option<FileInfo?>(
                 name: "--file",
                 getDefaultValue: () => null,
-                 description: "The file to use as single configuration.");
+                description: "The file to use as single configuration."
+            );
 
-            var listArgument = new Argument<string>(
-                name: "list",
-                description: "List ofprojects.");
+            var listArgument = new Argument<string>(name: "list", description: "List ofprojects.");
 
             rootCommand.AddGlobalOption(verboseOption);
             rootCommand.AddGlobalOption(fileOption);
@@ -39,23 +55,27 @@ namespace Onur
             archiveCommand.AddArgument(listArgument);
 
             rootCommand.AddCommand(grabCommand);
-            grabCommand.SetHandler((file) =>
+            grabCommand.SetHandler(() =>
             {
-                Grab(file!);
-            }, fileOption);
+                Grab();
+            });
 
             rootCommand.AddCommand(archiveCommand);
-            archiveCommand.SetHandler((file, pjs) =>
-            {
-                Archive(file!, pjs);
-            }, fileOption, listArgument);
+            archiveCommand.SetHandler(
+                (file, pjs) =>
+                {
+                    Archive(file!, pjs);
+                },
+                fileOption,
+                listArgument
+            );
 
             return rootCommand;
         }
 
-        internal static void Grab(FileInfo file)
+        internal static void Grab()
         {
-            Console.WriteLine("Grabbing! \n using file: {file.FullName}");
+            new Grab().Run();
         }
 
         internal static void Archive(FileInfo file, string projectsList)

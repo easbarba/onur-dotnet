@@ -13,17 +13,22 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace Onur.UnitTests
+namespace Onur.Configuration
 {
-    public class Onur_Welcome
+    public class Preferences
     {
-        [Fact]
-        public void Welcome_ReturnFalse()
+        public Preferences()
         {
-            var onur = new Onur.Configuration.Preferences();
-            var result = onur.Welcome;
+            Home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            Assert.Equal(result, "Welcome");
+            Welcome = "Welcome";
+
+            var cfg = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            OnurHome = Path.Combine(cfg, "onur");
         }
+
+        public string Welcome { get; set; }
+        public string Home { get; set; }
+        public string OnurHome { get; set; }
     }
 }

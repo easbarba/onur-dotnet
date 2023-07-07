@@ -13,17 +13,10 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace Onur.UnitTests
+namespace Onur.Configuration
 {
-    public class Onur_Welcome
+    class Information
     {
-        [Fact]
-        public void Welcome_ReturnFalse()
-        {
-            var onur = new Onur.Configuration.Preferences();
-            var result = onur.Welcome;
-
-            Assert.Equal(result, "Welcome");
-        }
+        public Information() { }
     }
 }
