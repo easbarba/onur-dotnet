@@ -13,16 +13,20 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
+using Onur.Database;
 
 namespace Onur.Actions
 {
+    ///<Summary>
+    /// Grabs all repositories
+    ///</Summary>
     public class Grab
     {
         public void Run()
         {
-            var globals = Onur.Misc.Globals.GetInstance;
-
-            Console.WriteLine(globals.get("onurHome"));
+            var files = new Files();
+            foreach (var item in files.all())
+                Console.WriteLine(item);
         }
     }
 }

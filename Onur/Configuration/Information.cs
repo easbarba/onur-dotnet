@@ -13,8 +13,12 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
+
 namespace Onur.Configuration
 {
+    ///<Summary>
+    /// Checks and leverages user preferences
+    ///</Summary>
     class Information
     {
         public Information() { }

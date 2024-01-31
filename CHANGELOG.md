@@ -17,6 +17,7 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 ## 0.2.0
 
+- feat: list existent files
 - feat: implement actions
 
 ## 0.1.0

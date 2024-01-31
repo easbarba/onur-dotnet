@@ -16,6 +16,9 @@
 
 namespace Onur.Misc
 {
+    ///<Summary>
+    /// List all globals variables
+    ///</Summary>
     public class Globals
     {
         private static Globals? instance = null;

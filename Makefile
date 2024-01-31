@@ -18,7 +18,7 @@ VERSION := $(shell cat .version)
 FULLNAME := ${USER}/${NAME}:${VERSION}
 
 RUNNER ?= podman
-REPL_CONTAINER := mcr.microsoft.com/dotnet/sdk:7.0
+REPL_CONTAINER := mcr.microsoft.com/dotnet/sdk:8.0
 
 command:
 	${RUNNER} run --rm -it \
@@ -31,7 +31,8 @@ repl:
 	${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${REPL_CONTAINER} bash
+		${REPL_CONTAINER} \
+		bash -c './prepare.bash && bash'
 
 build:
 	${RUNNER} build --file ./Containerfile --tag ${FULLNAME}

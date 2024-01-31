@@ -15,6 +15,9 @@
 
 namespace Onur.Configuration
 {
+    ///<Summary>
+    /// Checks and leverages user preferences
+    ///</Summary>
     public class Preferences
     {
         public Preferences()

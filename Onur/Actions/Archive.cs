@@ -15,6 +15,9 @@
 
 namespace Onur.Actions
 {
+    ///<Summary>
+    /// Archives all selected projects
+    ///</Summary>
     public class Archive
     {
         public void Run()
