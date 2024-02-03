@@ -13,25 +13,24 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace Onur.Configuration
+namespace Onur.Configuration;
+
+///<Summary>
+/// Checks and leverages user preferences
+///</Summary>
+public class Preferences
 {
-    ///<Summary>
-    /// Checks and leverages user preferences
-    ///</Summary>
-    public class Preferences
+    public Preferences()
     {
-        public Preferences()
-        {
-            Home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        Home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            Welcome = "Welcome";
+        Welcome = "Welcome";
 
-            var cfg = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            OnurHome = Path.Combine(cfg, "onur");
-        }
-
-        public string Welcome { get; set; }
-        public string Home { get; set; }
-        public string OnurHome { get; set; }
+        var cfg = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        OnurHome = Path.Combine(cfg, "onur");
     }
+
+    public string Welcome { get; set; }
+    public string Home { get; set; }
+    public string OnurHome { get; set; }
 }

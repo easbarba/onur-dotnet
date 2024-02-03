@@ -13,27 +13,26 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
+namespace Onur.Database;
+
 using Onur.Misc;
 
-namespace Onur.Database
+///<Summary>
+/// List all configuration files
+///</Summary>
+public class Files
 {
-    ///<Summary>
-    /// List all configuration files
-    ///</Summary>
-    public class Files
+    private Globals globals { get; }
+
+    public Files()
     {
-        private Globals globals { get; }
-
-        public Files()
-        {
-            globals = Globals.GetInstance;
-        }
-
-        public IEnumerable<string> all() =>
-            Directory
-                .GetFiles(globals.get("onurHome"), "*.json")
-                .ToList()
-                .Where(c => File.Exists(new FileInfo(c).LinkTarget))
-                .Where(c => File.ReadAllText(c).Length != 0);
+        globals = Globals.GetInstance;
     }
+
+    public IEnumerable<string> all() =>
+        Directory
+            .GetFiles(globals.get("onurHome"), "*.json")
+            .ToList()
+            .Where(c => File.Exists(new FileInfo(c).LinkTarget))
+            .Where(c => File.ReadAllText(c).Length != 0);
 }

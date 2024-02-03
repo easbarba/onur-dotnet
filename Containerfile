@@ -15,8 +15,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0
 WORKDIR /app
 COPY Onur/Onur.csproj ./Onur/Onur.csproj
 COPY Onur.Tests/Onur.Tests.csproj ./Onur.Tests/Onur.Tests.csproj
-COPY Onur.sln ./
+COPY Onur.sln .
 RUN dotnet restore
-COPY ./examples /root/.config/onur
-COPY . ./
+RUN ./prepare.bash
+COPY . .
 ENTRYPOINT ["dotnet", "test"]

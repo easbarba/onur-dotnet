@@ -13,13 +13,9 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
+namespace Onur.Domain;
 
-namespace Onur.Configuration;
-
-///<Summary>
-/// Checks and leverages user preferences
-///</Summary>
-class Information
-{
-    public Information() { }
-}
+/// <summary>
+/// Configuration of projects
+/// </summary>
+public record Config(string topic, IEnumerable<Project> projects);

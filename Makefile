@@ -25,7 +25,21 @@ command:
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
 		${REPL_CONTAINER} \
-		bash -c './prepare.bash && $(shell cat commands | fzf)'
+		bash -c './prepare.bash && $(shell cat container-commands | fzf)'
+
+grab:
+	${RUNNER} run --rm -it \
+		--volume ${PWD}:/app:Z \
+		--workdir /app \
+		${REPL_CONTAINER} \
+		bash -c 'dotnet run --project Onur grab'
+
+archive:
+	${RUNNER} run --rm -it \
+		--volume ${PWD}:/app:Z \
+		--workdir /app \
+		${REPL_CONTAINER} \
+		bash -c './prepare.bash && dotnet run --project Onur archive awesomewm,river,stumpwm'
 
 repl:
 	${RUNNER} run --rm -it \
@@ -37,5 +51,5 @@ repl:
 build:
 	${RUNNER} build --file ./Containerfile --tag ${FULLNAME}
 
-.PHONY: test repl build command native
+.PHONY: test repl build command native grab archive
 .DEFAULT_GOAL := test

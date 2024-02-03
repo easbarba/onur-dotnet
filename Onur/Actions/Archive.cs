@@ -13,16 +13,15 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace Onur.Actions
+namespace Onur.Actions;
+
+///<Summary>
+/// Archives all selected projects
+///</Summary>
+public class Archive
 {
-    ///<Summary>
-    /// Archives all selected projects
-    ///</Summary>
-    public class Archive
+    public void Run()
     {
-        public void Run()
-        {
-            Console.WriteLine("Hello, World!");
-        }
+        Console.WriteLine("Hello, World!");
     }
 }

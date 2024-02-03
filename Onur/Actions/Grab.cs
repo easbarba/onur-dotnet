@@ -13,20 +13,21 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
+namespace Onur.Actions;
+
 using Onur.Database;
 
-namespace Onur.Actions
+///<Summary>
+/// Grabs all repositories
+///</Summary>
+public class Grab
 {
     ///<Summary>
     /// Grabs all repositories
     ///</Summary>
-    public class Grab
+    public void Run()
     {
-        public void Run()
-        {
-            var files = new Files();
-            foreach (var item in files.all())
-                Console.WriteLine(item);
-        }
+        var parse = new Parse();
+        parse.All();
     }
 }

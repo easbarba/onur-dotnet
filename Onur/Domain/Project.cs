@@ -13,13 +13,11 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
+namespace Onur.Domain;
 
-namespace Onur.Configuration;
-
-///<Summary>
-/// Checks and leverages user preferences
-///</Summary>
-class Information
+public record Project
 {
-    public Information() { }
+    public string name { get; set; }
+    public string branch { get; set; } = "master";
+    public string url { get; set; }
 }
