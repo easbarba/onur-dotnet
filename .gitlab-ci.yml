@@ -1,11 +1,12 @@
 stages:
   - test
 
+image: mcr.microsoft.com/dotnet/sdk:8.0
+
 before_script:
   - ./prepare.bash
 
-Unit Tests:
+Integration Tests:
   stage: test
-  image: mcr.microsoft.com/dotnet/sdk:8.0
   script:
     - dotnet test

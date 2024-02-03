@@ -17,6 +17,7 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 ### High
 
+- pull: discard all changes before pulling updates
 - actions: --filter rust
 - actions: --only rust,haskel,commonlisp
 - actions: --exclude rust,haskel,commonlisp

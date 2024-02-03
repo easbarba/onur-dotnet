@@ -13,13 +13,13 @@ You should have received a copy of the GNU General Public License
 along with Onur. If not, see <https://www.gnu.org/licenses/>.
 -->
 
-# Onur
+# Onur | .NET
 
 Easily manage multiple FLOSS repositories
 
 `Onur` grab all repositories listed in the configuration files.
 
-[python](https://gitlab.com/easbarba/onur) | [ruby](https://gitlab.com/easbarba/onur.rb) | [golang](https://gitlab.com/easbarba/onur_go)
+[python](https://gitlab.com/easbarba/onur) | [ruby](https://gitlab.com/easbarba/onur-rb) | [golang](https://gitlab.com/easbarba/onur-go)
 
 # Installation
 

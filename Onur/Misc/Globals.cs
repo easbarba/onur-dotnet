@@ -14,51 +14,59 @@
 */
 
 
-namespace Onur.Misc
+namespace Onur.Misc;
+
+///<Summary>
+/// List all globals variables
+///</Summary>
+public class Globals
 {
-    ///<Summary>
-    /// List all globals variables
-    ///</Summary>
-    public class Globals
+    private static Globals? instance = null;
+    private IDictionary<String, String> properties = new Dictionary<string, string>();
+
+    private Globals()
     {
-        private static Globals? instance = null;
-        private IDictionary<String, String> properties = new Dictionary<string, string>();
+        this._defaultProperties();
+    }
 
-        private Globals()
+    /// summary
+    /// returns a instance, either by creating one if does not exist
+    /// or return existent (singleton pattern)
+    ///
+    public static Globals GetInstance
+    {
+        get
         {
-            this._defaultProperties();
-        }
-
-        public static Globals GetInstance
-        {
-            get
+            if (instance is null)
             {
-                if (instance is null)
-                {
-                    instance = new Globals();
-                }
-
-                return instance;
+                instance = new Globals();
             }
-        }
 
-        public void set(string key, string value)
-        {
-            properties[key] = value;
+            return instance;
         }
+    }
 
-        public String get(string key)
-        {
-            return properties[key];
-        }
+    /// summary
+    /// add a new global key
+    ///
+    public void set(string key, string value)
+    {
+        properties[key] = value;
+    }
 
-        private void _defaultProperties()
-        {
-            properties["home"] = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            properties["config"] = Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData
-            );
-            properties["onurHome"] = Path.Join(properties["config"], "onur");
-        }
+    /// summary
+    /// get a global key
+    ///
+    public String get(string key)
+    {
+        return properties[key];
+    }
+
+    private void _defaultProperties()
+    {
+        properties["home"] = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        properties["config"] = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        properties["onurHome"] = Path.Join(properties["config"], "onur");
+        properties["projectsHome"] = Path.Join(properties["home"], "Projects");
     }
 }

@@ -13,17 +13,20 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace Onur.UnitTests
-{
-    public class Onur_Welcome
-    {
-        [Fact]
-        public void Welcome_ReturnFalse()
-        {
-            var onur = new Onur.Configuration.Preferences();
-            var result = onur.Welcome;
+namespace Onur.Tests.Database;
 
-            Assert.Equal(result, "Welcome");
-        }
+using Onur.Database;
+using Onur.Domain;
+using Xunit;
+
+public class RepositoryTest
+{
+    [Fact]
+    public void ShouldReturnAllFiles()
+    {
+        var repo = new Repository();
+        var result = repo.All();
+
+        Assert.Equal("Cool", result?.First<Config>().topic);
     }
 }

@@ -24,15 +24,26 @@ public class Files
 {
     private Globals globals { get; }
 
-    public Files()
-    {
-        globals = Globals.GetInstance;
-    }
+    /// <summary>
+    /// Yup, same as before
+    /// </summary>
+    public Files() => globals = Globals.GetInstance;
 
+    /// <summary>
+    /// List of all files by some criteria
+    /// </summary>
     public IEnumerable<string> all() =>
         Directory
             .GetFiles(globals.get("onurHome"), "*.json")
             .ToList()
-            .Where(c => File.Exists(new FileInfo(c).LinkTarget))
-            .Where(c => File.ReadAllText(c).Length != 0);
+            .Where(f => File.Exists(new FileInfo(f).FullName))
+            .Where(f =>
+            {
+                // ignore broken simbolic links
+                var fileInfo = new FileInfo(f);
+                return fileInfo.LinkTarget is null
+                    && !File.Exists(fileInfo.ResolveLinkTarget(true)?.FullName);
+            })
+            .Where(f => File.ReadAllText(f).Length != 0) // ignore empty files
+            .Order();
 }

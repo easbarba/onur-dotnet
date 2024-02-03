@@ -15,9 +15,23 @@
 
 namespace Onur.Domain;
 
+/// summary
+/// Provide essential information to project
+///
 public record Project
 {
-    public string name { get; set; }
-    public string branch { get; set; } = "master";
-    public string url { get; set; }
+    /// summary
+    /// Project's name
+    ///
+    public required string name { get; init; }
+
+    /// summary
+    /// Project's Branch: defaults to master
+    ///
+    public string branch { get; init; } = "master";
+
+    /// summary
+    /// Project's full URI
+    ///
+    public required string url { get; init; }
 }

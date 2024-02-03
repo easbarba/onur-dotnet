@@ -15,19 +15,24 @@
 
 namespace Onur.Actions;
 
-using Onur.Database;
+using Onur.Domain;
+
+// using LibGit2Sharp;
 
 ///<Summary>
-/// Grabs all repositories
+/// Pull latest update of repository
 ///</Summary>
-public class Grab
+public class Pull
 {
     ///<Summary>
-    /// Grabs all repositories
+    /// Go!
     ///</Summary>
-    public void Run()
+    public void Run(Project project, string root)
     {
-        var parse = new Parse();
-        parse.All();
+        // var repo = new Repository(root);
+        // var pullOptions = new PullOptions();
+        // var fetchOptions = new FetchOptions();
+        // Commands.Fetch(repo, "origin", new string[0], fetchOptions, null);
+        Utils.Exec(project, root, $"-C {root} pull");
     }
 }

@@ -15,13 +15,21 @@
 
 namespace Onur.Actions;
 
+// using LibGit2Sharp;
+using Onur.Domain;
+
 ///<Summary>
-/// Archives all selected projects
+/// Grabs all repositories
 ///</Summary>
-public class Archive
+public class Klone
 {
-    public void Run()
+    ///<Summary>
+    /// Grabs all repositories
+    ///</Summary>
+    public void Run(Project project, string root)
     {
-        Console.WriteLine("Hello, World!");
+        var arguments =
+            $"clone --single-branch --depth=1 --quiet --branch={project.branch} {project.url} {root}";
+        Utils.Exec(project, root, arguments);
     }
 }

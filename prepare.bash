@@ -16,4 +16,5 @@
 mkdir -p ~/.config/onur
 cp ./examples/* ~/.config/onur
 touch ~/.config/onur/emptyfile.json
+ln -sf ~/.config/onur/cool.json ~/.config/onur/cool.json
 ln -sf ~/nonexistentfile ~/.config/onur/baz.json

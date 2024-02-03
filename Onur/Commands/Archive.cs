@@ -13,4 +13,15 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
-global using Xunit;
+namespace Onur.Commands;
+
+///<Summary>
+/// Archives all selected projects
+///</Summary>
+public class Archive
+{
+    /// <summary>
+    /// Filter by criteria and compress repositories
+    /// </summary>
+    public void Run() => Console.WriteLine("Hello, World!");
+}

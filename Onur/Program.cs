@@ -13,81 +13,80 @@
 * along with onur. If not, see <https://www.gnu.org/licenses/>.
 */
 
+namespace Onur;
+
 using System.CommandLine;
-using Onur.Actions;
+using Onur.Commands;
 
-namespace Onur
+class Program
 {
-    class Program
+    static int Main(string[] args)
     {
-        static int Main(string[] args)
+        RootCommand rootCommand = Options();
+
+        return rootCommand.InvokeAsync(args).Result;
+    }
+
+    private static RootCommand Options()
+    {
+        var rootCommand = new RootCommand("Easily manage multiple FLOSS repositories.");
+
+        // OPTIONS
+        var verboseOption = new Option<bool>(
+            name: "--verbose",
+            description: "More information on command.",
+            getDefaultValue: () => false
+        );
+
+        var fileOption = new Option<FileInfo?>(
+            name: "--file",
+            getDefaultValue: () => null,
+            description: "The file to use as single configuration."
+        );
+
+        var listArgument = new Argument<string>(name: "list", description: "List ofprojects.");
+
+        rootCommand.AddGlobalOption(verboseOption);
+        rootCommand.AddGlobalOption(fileOption);
+
+        // COMMANDS
+        var grabCommand = new Command("grab", "Grab all projects.");
+        var archiveCommand = new Command("archive", "Archiving it  all.");
+        archiveCommand.AddArgument(listArgument);
+
+        rootCommand.AddCommand(grabCommand);
+        grabCommand.SetHandler(() =>
         {
-            RootCommand rootCommand = Options();
+            Grab();
+        });
 
-            return rootCommand.InvokeAsync(args).Result;
-        }
-
-        private static RootCommand Options()
-        {
-            var rootCommand = new RootCommand("Easily manage multiple FLOSS repositories.");
-
-            // OPTIONS
-            var verboseOption = new Option<bool>(
-                name: "--verbose",
-                description: "More information on command.",
-                getDefaultValue: () => false
-            );
-
-            var fileOption = new Option<FileInfo?>(
-                name: "--file",
-                getDefaultValue: () => null,
-                description: "The file to use as single configuration."
-            );
-
-            var listArgument = new Argument<string>(name: "list", description: "List ofprojects.");
-
-            rootCommand.AddGlobalOption(verboseOption);
-            rootCommand.AddGlobalOption(fileOption);
-
-            // COMMANDS
-            var grabCommand = new Command("grab", "Grab all projects.");
-            var archiveCommand = new Command("archive", "Archiving it  all.");
-            archiveCommand.AddArgument(listArgument);
-
-            rootCommand.AddCommand(grabCommand);
-            grabCommand.SetHandler(() =>
+        rootCommand.AddCommand(archiveCommand);
+        archiveCommand.SetHandler(
+            (file, pjs) =>
             {
-                Grab();
-            });
+                Archive(file!, pjs);
+            },
+            fileOption,
+            listArgument
+        );
 
-            rootCommand.AddCommand(archiveCommand);
-            archiveCommand.SetHandler(
-                (file, pjs) =>
-                {
-                    Archive(file!, pjs);
-                },
-                fileOption,
-                listArgument
-            );
+        return rootCommand;
+    }
 
-            return rootCommand;
-        }
+    internal static void Grab()
+    {
+        new Grab().Run();
+    }
 
-        internal static void Grab()
+    internal static void Archive(FileInfo file, string projectsList)
+    {
+        var names = projectsList.Split(',');
+
+        Console.WriteLine("Archiving! Using file: {file}");
+
+        foreach (var name in names)
         {
-            new Grab().Run();
-        }
-
-        internal static void Archive(FileInfo file, string projectsList)
-        {
-            var names = projectsList.Split(',');
-
-            Console.WriteLine("Archiving! Using file: {file}");
-
-            foreach (var name in names)
-            {
-                Console.WriteLine(name);
-            }
+            Console.WriteLine(name);
         }
     }
 }

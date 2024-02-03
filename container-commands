@@ -1,3 +1,7 @@
 dotnet test
+
 dotnet run --project Onur grab
 dotnet run --project Onur archive
+
+dotnet outdated
+dotnet outdated --upgrade

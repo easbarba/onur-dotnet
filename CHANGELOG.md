@@ -17,6 +17,8 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 ## 0.2.0
 
+- feat: implement git actions
+- feat: parse all configuration files
 - feat: list existent files
 - feat: implement actions
 

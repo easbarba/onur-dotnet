@@ -20,17 +20,24 @@ namespace Onur.Configuration;
 ///</Summary>
 public class Preferences
 {
+    /// summary
+    /// User Home Directory
+    ///
+    public string Home { get; init; }
+
+    /// summary
+    /// User Configuration folder + "onur"
+    ///
+    public string OnurHome { get; init; }
+
+    /// summary
+    /// Go
+    ///
     public Preferences()
     {
         Home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-        Welcome = "Welcome";
-
         var cfg = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         OnurHome = Path.Combine(cfg, "onur");
     }
-
-    public string Welcome { get; set; }
-    public string Home { get; set; }
-    public string OnurHome { get; set; }
 }

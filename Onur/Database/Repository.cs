@@ -22,10 +22,10 @@ using Onur.Domain;
 /// <summary>
 /// Description
 /// </summary>
-public class Parse
+public class Repository
 {
     /// <summary>
-    /// Description
+    /// List of all boxed configuration
     /// </summary>
     public IEnumerable<Config>? All()
     {
@@ -35,11 +35,10 @@ public class Parse
         foreach (var file in files.all())
         {
             var fileContent = File.ReadAllText(file);
+
+            // ignore empty files
             if (fileContent.Length == 0)
-            {
-                Console.WriteLine("Dang Empty!");
-                break;
-            }
+                continue;
 
             var fileDeserialized = Single(fileContent);
             if (fileDeserialized == null)
@@ -51,27 +50,11 @@ public class Parse
             result.Add(new Config(topic, fileDeserialized));
         }
 
-        foreach (var config in result)
-        {
-            Console.WriteLine($"\nTopic: {config.topic}");
-            foreach (var project in config.projects.ToArray())
-            {
-                Console.WriteLine(
-                    $"""
-
-name: {project.name}
-branch: {project.branch}
-url: {project.url}
-"""
-                );
-            }
-        }
-
         return result;
     }
 
     /// <summary>
-    /// Description
+    /// Box a single configuration
     /// </summary>
     private IEnumerable<Project>? Single(string fileContent)
     {

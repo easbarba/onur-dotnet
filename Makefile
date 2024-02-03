@@ -13,43 +13,71 @@
 
 # DEPENDENCIES: gawk, fzf, podman
 
-NAME := onur
-VERSION := $(shell cat .version)
-FULLNAME := ${USER}/${NAME}:${VERSION}
+.DEFAULT_GOAL := test
 
+NAME := onur-dotnet
+VERSION := $(shell awk '/<Version>/ {version=substr($$0,14,5); print version}' ./Onur/Onur.csproj)
+IMAGENAME := ${USER}/${NAME}:${VERSION}
 RUNNER ?= podman
 REPL_CONTAINER := mcr.microsoft.com/dotnet/sdk:8.0
 
-command:
+.PHONY: test
+test:
 	${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${REPL_CONTAINER} \
-		bash -c './prepare.bash && $(shell cat container-commands | fzf)'
+		${IMAGENAME} \
+		bash -c 'dotnet test'
 
+.PHONY: grab
 grab:
 	${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${REPL_CONTAINER} \
+		${IMAGENAME} \
 		bash -c 'dotnet run --project Onur grab'
 
+.PHONY: archive
 archive:
 	${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${REPL_CONTAINER} \
-		bash -c './prepare.bash && dotnet run --project Onur archive awesomewm,river,stumpwm'
+		${IMAGENAME} \
+		bash -c 'dotnet run --project Onur archive awesomewm,river,stumpwm'
 
-repl:
+.PHONY: command
+command:
 	${RUNNER} run --rm -it \
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
-		${REPL_CONTAINER} \
-		bash -c './prepare.bash && bash'
+		${IMAGENAME} \
+		bash -c '$(shell cat container-commands | fzf)'
 
-build:
-	${RUNNER} build --file ./Containerfile --tag ${FULLNAME}
+.PHONY: image.repl
+image.repl:
+	${RUNNER} run --rm -it \
+		--volume ${PWD}:/app:Z \
+		--workdir /app \
+		${IMAGENAME} \
+		bash -c 'ls'
 
-.PHONY: test repl build command native grab archive
-.DEFAULT_GOAL := test
+.PHONY: image.build
+image.build:
+	${RUNNER} build --file ./Containerfile --tag ${IMAGENAME}
+
+.PHONY: image.publish
+image.publish:
+	${RUNNER} push ${IMAGENAME}
+
+.PHONY: install
+install:
+	dotnet publish \
+	--self-contained true \
+	--configuration Release \
+	--runtime linux-x64 \
+	--output ${HOME}/.local/onur
+	ln -sf ${HOME}/local/onur/Onur ${HOME}/.local/bin/onur
+
+.PHONY: system
+system:
+	guix shell --pure --container

@@ -11,12 +11,10 @@
 # You should have received a copy of the GNU General Public License
 # along with onur. If not, see <https://www.gnu.org/licenses/>.
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0
+ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk:8.0
+
+FROM $SDK_IMAGE
 WORKDIR /app
-COPY Onur/Onur.csproj ./Onur/Onur.csproj
-COPY Onur.Tests/Onur.Tests.csproj ./Onur.Tests/Onur.Tests.csproj
-COPY Onur.sln .
-RUN dotnet restore
-RUN ./prepare.bash
 COPY . .
-ENTRYPOINT ["dotnet", "test"]
+RUN ./prepare.bash
+CMD ["dotnet", "test"]

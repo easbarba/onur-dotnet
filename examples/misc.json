@@ -10,6 +10,7 @@
     },
     {
         "name": "swift_format",
-        "url": "https://github.com/apple/swift-format"
+        "url": "https://github.com/apple/swift-format",
+        "branch": "main"
     }
 ]
