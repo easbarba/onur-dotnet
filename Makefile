@@ -17,9 +17,8 @@
 
 NAME := onur-dotnet
 VERSION := $(shell awk '/<Version>/ {version=substr($$0,14,5); print version}' ./Onur/Onur.csproj)
-IMAGENAME := ${USER}/${NAME}:${VERSION}
+IMAGENAME := registry.gitlab.com/${USER}/${NAME}:${VERSION}
 RUNNER ?= podman
-REPL_CONTAINER := mcr.microsoft.com/dotnet/sdk:8.0
 
 .PHONY: test
 test:
@@ -27,7 +26,7 @@ test:
 		--volume ${PWD}:/app:Z \
 		--workdir /app \
 		${IMAGENAME} \
-		bash -c 'dotnet test'
+		bash -c 'dotnet test --verbosity normal'
 
 .PHONY: grab
 grab:
@@ -76,7 +75,7 @@ install:
 	--configuration Release \
 	--runtime linux-x64 \
 	--output ${HOME}/.local/onur
-	ln -sf ${HOME}/local/onur/Onur ${HOME}/.local/bin/onur
+	ln -sf ${HOME}/.local/onur/Onur ${HOME}/.local/bin/onur
 
 .PHONY: system
 system:

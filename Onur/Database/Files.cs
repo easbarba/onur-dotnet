@@ -32,18 +32,45 @@ public class Files
     /// <summary>
     /// List of all files by some criteria
     /// </summary>
-    public IEnumerable<string> all() =>
-        Directory
+    public IEnumerable<string> filenames()
+    {
+        var cfgs = Directory
             .GetFiles(globals.get("onurHome"), "*.json")
             .ToList()
             .Where(f => File.Exists(new FileInfo(f).FullName))
             .Where(f =>
             {
                 // ignore broken simbolic links
+
                 var fileInfo = new FileInfo(f);
-                return fileInfo.LinkTarget is null
-                    && !File.Exists(fileInfo.ResolveLinkTarget(true)?.FullName);
+
+                // symbolic link cannot be resolved
+                if (fileInfo is null)
+                    return true;
+
+                var targetFile = fileInfo.ResolveLinkTarget(true);
+
+                // not a symbolic link
+                if (targetFile is null)
+                    return true;
+
+                // target file exist
+                if (File.Exists(targetFile.FullName))
+                    return true;
+
+                return false;
             })
             .Where(f => File.ReadAllText(f).Length != 0) // ignore empty files
             .Order();
+
+        Console.Write($"Configs: ({cfgs.Count()}) [ ");
+
+        foreach (var cfg in cfgs)
+            Console.Write($" {cfg} ");
+
+        Console.WriteLine(" ]");
+
+        // Environment.Exit(0);
+        return cfgs;
+    }
 }

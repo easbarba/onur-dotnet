@@ -1,0 +1,26 @@
+name: .NET
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  container-test-job:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.gitlab.com/easbarba/onur-dotnet:0.3.0
+
+    steps:
+      - name: Restore
+        working-directory: /app
+        run: dotnet restore ./Onur.sln
+
+      - name: Build
+        working-directory: /app
+        run: dotnet build ./Onur.sln
+
+      - name: Integration Tests
+        working-directory: /app
+        run: dotnet test ./Onur.sln --verbosity normal

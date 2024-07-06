@@ -33,6 +33,6 @@ public class Pull
         // var pullOptions = new PullOptions();
         // var fetchOptions = new FetchOptions();
         // Commands.Fetch(repo, "origin", new string[0], fetchOptions, null);
-        Utils.Exec(project, root, $"-C {root} pull");
+        Utils.Exec(project, root, $"-C {root} pull --quiet");
     }
 }

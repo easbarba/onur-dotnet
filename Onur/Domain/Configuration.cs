@@ -18,4 +18,4 @@ namespace Onur.Domain;
 /// <summary>
 /// Configuration of projects
 /// </summary>
-public record Config(string topic, IEnumerable<Project> projects);
+public record Config(string configName, Dictionary<string, IEnumerable<Project>> topics);

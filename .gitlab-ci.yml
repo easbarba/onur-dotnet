@@ -1,7 +1,7 @@
 stages:
   - test
 
-image: mcr.microsoft.com/dotnet/sdk:8.0
+image: registry.gitlab.com/easbarba/onur-dotnet:0.3.0
 
 before_script:
   - ./prepare.bash
@@ -9,4 +9,4 @@ before_script:
 Integration Tests:
   stage: test
   script:
-    - dotnet test
+    - dotnet test --verbosity normal

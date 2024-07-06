@@ -13,13 +13,10 @@ You should have received a copy of the GNU General Public License
 along with Onur. If not, see <https://www.gnu.org/licenses/>.
 -->
 
-# Onur | .NET
+# Onur.net
 
-Easily manage multiple FLOSS repositories
-
-`Onur` grab all repositories listed in the configuration files.
-
-[python](https://gitlab.com/easbarba/onur) | [ruby](https://gitlab.com/easbarba/onur-rb) | [golang](https://gitlab.com/easbarba/onur-go)
+Easily manage multiple FLOSS repositories.
+[c](https://gitlab.com/easbarba/onur) | [go](https://gitlab.com/easbarba/onur-go) | [python](https://gitlab.com/easbarba/onur-python) | [rust](https://gitlab.com/easbarba/onur-rust) | [php](https://gitlab.com/easbarba/onur-php) | [java](https://gitlab.com/easbarba/onur-java) 
 
 # Installation
 
@@ -30,51 +27,79 @@ Easily manage multiple FLOSS repositories
 ```json
 onur grab
 onur archive nuxt,awesomewm,guzzle
+onur grab --file /path/to/custom/config
+onur --help
 ```
 
 - `$ONUR_CONFIG_HOME` environment variable is available to define a new location of configuration files.
 - repositories are stored in the `$HOME/Projects` folder.
 
-## Configuration file
+## CONFIGURATION FILE
 
-A `onur` configuration file is just a single list providing name and url of projects, branch may be provided if not the usual `master` branch:
+A `onur` single configuration file:
 
 ```json
-[
-  {
-    "name": "awesomewm",
-    "url": "https://github.com/awesomeWM/awesome"
-  },
-  {
-    "name": "nuxt",
-    "branch": "main",
-    "url": "https://github.com/nuxt/framework"
-  }
-]
+{
+  "main": [
+    {
+      "name": "awesomewm",
+      "url": "https://github.com/awesomeWM/awesome"
+    },
+    {
+      "name": "nuxt",
+      "branch": "main",
+      "url": "https://github.com/nuxt/framework"
+    }
+  ],
+  "misc": [
+    {
+      "name": "awesomewm",
+      "url": "https://github.com/awesomeWM/awesome"
+    },
+    {
+      "name": "nuxt",
+      "branch": "main",
+      "url": "https://github.com/nuxt/framework"
+    }
+  ],
+  "tools/gnu": [
+    {
+      "name": "inetutils",
+      "url": "https://git.savannah.gnu.org/git/inetutils.git"
+    },
+    {
+      "name": "gnu-wget",
+      "url": "https://git.savannah.gnu.org/git/wget.git"
+    }
+  ]
+}
 ```
 
 More examples of configuration files are at `examples`.
 
-## Settings
-
-A TOML settings file may define the behavior of `onur`:
+## SETTINGS
 
 ```toml
-[base]
+[git]
 single-branch = true
 quiet = true
 depth = 1
-
 ```
 
-## Options
+## DEVELOPMENT
 
-Consult `onur --help` for more options.
+In development it may suit you better running the tests in a isolated environment
+with containers, that can be done so:
 
-## GNU Guix
+    docker run --rm -it $(docker build -qf Containerfile.run)
+ 
+or: 
 
-In a system with GNU Guix binary installed, its even easier to grab all
-dependencies: `guix shell`.
+    podman build https://gitlab.com/easbarba/onur/-/raw/main/Containerfile.dev --tag onur:latest
+    podman run --rm -it onur:latest 
+
+
+![Onur CLI](onur.png)
 
 ## LICENSE
 

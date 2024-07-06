@@ -17,4 +17,6 @@ FROM $SDK_IMAGE
 WORKDIR /app
 COPY . .
 RUN ./prepare.bash
-CMD ["dotnet", "test"]
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
+CMD [ "dotnet", "test", "--no-build", "--verbosity", "normal" ]

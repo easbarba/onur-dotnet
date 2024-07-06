@@ -44,7 +44,7 @@ class Program
             description: "The file to use as single configuration."
         );
 
-        var listArgument = new Argument<string>(name: "list", description: "List ofprojects.");
+        var listArgument = new Argument<string>(name: "list", description: "List of projects.");
 
         rootCommand.AddGlobalOption(verboseOption);
         rootCommand.AddGlobalOption(fileOption);
@@ -73,10 +73,7 @@ class Program
         return rootCommand;
     }
 
-    internal static void Grab()
-    {
-        new Grab().Run();
-    }
+    internal static void Grab() => new Grab().Run();
 
     internal static void Archive(FileInfo file, string projectsList)
     {

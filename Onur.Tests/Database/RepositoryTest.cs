@@ -17,7 +17,6 @@ namespace Onur.Tests.Database;
 
 using Onur.Database;
 using Onur.Domain;
-using Xunit;
 
 public class RepositoryTest
 {
@@ -25,8 +24,8 @@ public class RepositoryTest
     public void ShouldReturnAllFiles()
     {
         var repo = new Repository();
-        var result = repo.All();
+        var result = repo.Multi();
 
-        Assert.Equal("Cool", result?.First<Config>().topic);
+        Assert.Equal("main", result?.First<Config>().topics.First().Key);
     }
 }

@@ -15,6 +15,10 @@ along with Onur. If not, see <https://www.gnu.org/licenses/>.
 
 # CHANGELOG
 
+## 0.3.0
+
+- feat: new config with topics
+
 ## 0.2.0
 
 - feat: implement git actions

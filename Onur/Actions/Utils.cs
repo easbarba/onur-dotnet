@@ -43,15 +43,15 @@ public class Utils
         proc.Start();
         var result = proc.StandardOutput.ReadToEnd();
 
-        Console.WriteLine(
-            $"""
+        //         Console.WriteLine(
+        //             $"""
 
--- Output --
+        // -- Output --
 
-{result}
--- Output --
-"""
-        );
+        // {result}
+        // -- Output --
+        // """
+        //         );
 
         proc.WaitForExit();
     }

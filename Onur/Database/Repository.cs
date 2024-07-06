@@ -27,27 +27,27 @@ public class Repository
     /// <summary>
     /// List of all boxed configuration
     /// </summary>
-    public IEnumerable<Config>? All()
+    public IEnumerable<Config>? Multi()
     {
         var result = new List<Config>();
 
         var files = new Files();
-        foreach (var file in files.all())
+        foreach (var filename in files.filenames())
         {
-            var fileContent = File.ReadAllText(file);
+            var fileContent = File.ReadAllText(filename);
 
             // ignore empty files
             if (fileContent.Length == 0)
                 continue;
 
-            var fileDeserialized = Single(fileContent);
-            if (fileDeserialized == null)
+            var parsedObject = Single(Path.GetFileName(filename), fileContent);
+            if (parsedObject == null)
                 break;
 
-            var topic = Path.GetFileNameWithoutExtension(file);
-            topic = new CultureInfo(topic, false).TextInfo.ToTitleCase(topic);
+            var topicTitled = Path.GetFileNameWithoutExtension(filename);
+            topicTitled = new CultureInfo(topicTitled, false).TextInfo.ToTitleCase(topicTitled);
 
-            result.Add(new Config(topic, fileDeserialized));
+            result.Add(new Config(topicTitled, parsedObject));
         }
 
         return result;
@@ -56,12 +56,39 @@ public class Repository
     /// <summary>
     /// Box a single configuration
     /// </summary>
-    private IEnumerable<Project>? Single(string fileContent)
+    private Dictionary<string, IEnumerable<Project>>? Single(string filename, string fileContent)
     {
-        IEnumerable<Project>? fileDeserialized = JsonSerializer.Deserialize<IEnumerable<Project>>(
-            fileContent
-        );
+        try
+        {
+            var fileDeserialized = JsonSerializer.Deserialize<
+                Dictionary<string, IEnumerable<Project>>
+            >(fileContent);
 
-        return fileDeserialized?.ToArray();
+            if (fileDeserialized == null)
+            {
+                Console.WriteLine($"Error at parsing config {filename}!");
+                return null;
+            }
+
+            // configuration with no listed projects
+            foreach (var projects in fileDeserialized.Values)
+            {
+                if (!projects.Any())
+                {
+                    Console.WriteLine(
+                        $"Error: Config {filename} has topics but not projects listed!"
+                    );
+                    return null;
+                }
+            }
+
+            return fileDeserialized;
+        }
+        catch (JsonException ex)
+        {
+            Console.WriteLine($"Deserialization failed: {ex.Message}");
+            return null;
+            // Environment.Exit(1);
+        }
     }
 }

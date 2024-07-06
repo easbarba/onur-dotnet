@@ -34,37 +34,43 @@ public class Grab
         var pull = new Pull();
 
         var repository = new Repository();
-        var result = repository.All();
-        if (result == null)
+        var allConfigs = repository.Multi();
+        if (allConfigs == null)
             return;
 
-        foreach (var config in result)
+        foreach (var config in allConfigs)
         {
-            Console.WriteLine($"\nTopic: {config.topic}");
+            Console.WriteLine($"\n{config.configName}");
 
-            foreach (var project in config.projects.ToArray())
+            foreach (var topic in config.topics)
             {
-                var projectPath = Path.Combine(
-                    globals.get("projectsHome"),
-                    config.topic.ToLower().ToString(),
-                    project.name
-                );
+                Console.WriteLine($"\n  {topic.Key}");
+                foreach (var project in topic.Value)
+                {
+                    var projectPath = Path.Combine(
+                        globals.get("projectsHome"),
+                        config.configName.ToLower().ToString(),
+                        topic.Key,
+                        project.name
+                    );
 
-                Console.WriteLine(
-                    $"""
+                    printInfo(project);
 
-name: {project.name}
-branch: {project.branch}
-url: {project.url}
-path: {projectPath}
-"""
-                );
-
-                if (Directory.Exists(Path.Combine(projectPath, ".git")))
-                    pull.Run(project, projectPath);
-                else
-                    klone.Run(project, projectPath);
+                    if (Directory.Exists(Path.Combine(projectPath, ".git")))
+                        pull.Run(project, projectPath);
+                    else
+                        klone.Run(project, projectPath);
+                }
             }
         }
+    }
+
+    private void printInfo(Domain.Project project)
+    {
+        var nameTruncated =
+            project.name.Length <= 37 ? project.name : string.Concat(project.name.Take(37)) + "...";
+        var urlTruncated =
+            project.url.Length <= 50 ? project.url : string.Concat(project.url.Take(50)) + "...";
+        Console.WriteLine($"{" ", 4}{nameTruncated, -45}{urlTruncated, -60}{project.branch}");
     }
 }
